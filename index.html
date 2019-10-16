@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+<head>
+
+<script language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<style>
+body {
+	margin: 0px auto; overflow: hidden;
+	display: flex;
+	flex-direction: row;
+	width: 1280px;
+
+	background-image: url("2RunnerBG/P0GameStart.jpg");
+	background-repeat: no-repeat;
+}
+img {
+	padding: 0px;
+}
+
+.infobox {
+	position: fixed;
+	width: 275px;
+	height: 85px;
+
+	color: #ffffff;
+}
+.infobox .name {
+	font-size: 1.8em;
+	text-align: center;
+}
+.infobox .pb {
+	text-align: left;
+}
+.infobox .pronouns {
+	text-align: right;
+}
+
+#player1 {
+	left: 165px;
+	top: 485px;
+}
+
+#player2 {
+	left: 837px;
+	top: 485px;
+}
+
+#control {
+	position: fixed;
+	left: 0;
+	top: 720px;
+
+	background-color: #ffffff;
+}
+</style>
+</head>
+<body id="background">
+	<script language="javascript">
+		$(document).ready(function(){
+			var backgrounds = [
+				"P0GameStart",
+				"P1",
+				"P1Bagu",
+				"P1DM",
+				"P1WBoulderdash",
+				"P1ZSwampWalk",
+				"P2",
+				"P3",
+				"P3FireWalk",
+				"P3GreenMile",
+				"P4",
+				//"P4LilZ",
+				"P5",
+				"P5KasutoWalk",
+				"P6",
+				//"P6LULSTAB",
+				"P6VOD",
+				"P7GP",
+			];
+			var curIdx = 0;
+			$(document).keypress(function(ev) {
+				console.log("keypress! " + ev.which);
+				if (ev.which == 119) {
+					curIdx = 0;
+					console.log("move to start: " + curIdx);
+				} else if (ev.which == 115) {
+					curIdx = backgrounds.length-1;
+					console.log("move to end: " + curIdx);
+				} else if (ev.which == 97) {
+					curIdx = Math.max(curIdx - 1, 0);
+					console.log("move back: " + curIdx);
+				} else if (ev.which == 100) {
+					curIdx = Math.min(curIdx + 1, backgrounds.length-1);
+					console.log("move forward: " + curIdx);
+				} else if (ev.which == 114) {
+					location.reload(true);
+				}
+				$("#background").css("background-image", "url('2RunnerBG/" + backgrounds[curIdx] + ".jpg')");
+			});
+			$("input").keypress(function(ev) {ev.stopPropagation()});
+			var simple_autoset_fn = function(ev) {
+				$(ev.data).text(this.value);
+			};
+			var prefix_autoset_fn = function(ev) {
+				var prefix = ev.data[0];
+				var elem = ev.data[1];
+				if (this.value != "") {
+					$(elem).text(prefix + this.value);
+				} else {
+					$(elem).text("");
+				}
+			}
+			$("#racer1_name").change("#player1 .name", simple_autoset_fn);
+			$("#racer1_pb").change(["PB: ", "#player1 .pb"], prefix_autoset_fn);
+			$("#racer1_pronouns").change("#player1 .pronouns", simple_autoset_fn);
+			$("#racer2_name").change("#player2 .name", simple_autoset_fn);
+			$("#racer2_pb").change(["PB: ", "#player2 .pb"], prefix_autoset_fn);
+			$("#racer2_pronouns").change("#player2 .pronouns", simple_autoset_fn);
+		});
+	</script>
+	<table id="player1" class="infobox">
+		<tr><td class="name" colspan="2"></td></tr>
+		<tr><td class="pb"></td><td class="pronouns"></td></tr>
+	</table>
+	<table id="player2" class="infobox">
+		<tr><td class="name" colspan="2"></td></tr>
+		<tr><td class="pb"></td><td class="pronouns"></td></tr>
+	</table>
+
+	<div id="control"> 
+		<p>HI!</p>
+
+		<p>To use me, make me a Browser Source in OBS with a width of 1280 and a height of 1000, then right click the source and Interact to control me. Once you resize the source to fill the whole top of the screen, this should only be visible in the interact window! Leave text fields below blank to use your own overlay for them.</p>
+
+		<p>WASD controls switch screens ('a', 'd' for previous and next, 'w', 's' for first and last). If you need to reload from scratch, press 'r'!</p>
+
+		<table>
+			<tr><td>Racer 1</td><td>Name: </td><td><input type="text" id="racer1_name"/></td><td>Pronouns</td><td><input type="text" id="racer1_pronouns"/></td></tr>
+			<tr><td>&nbsp;</td><td>PB: </td><td><input type="text" id="racer1_pb"/></td><td>Won <input type="checkbox" id="racer1_won"></tr>
+			<tr><td>Racer 2 </td><td>Name: </td><td><input type="text" id="racer2_name"/></td><td>Pronouns</td><td><input type="text" id="racer2_pronouns"/></td></tr>
+			<tr><td>&nbsp;</td><td>PB: </td><td><input type="text" id="racer2_pb"/></td><td>Won <input type="checkbox" id="racer2_won"></tr>
+		</table>
+
+		<p>Graphics by Schmiddty, Bad Website by Meg</p>
+	</div>
+</body>
+</html>
